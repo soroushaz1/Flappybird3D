@@ -55,13 +55,16 @@ public class BirdMovement : MonoBehaviour
     {
         Debug.Log("Game Over");
         isGameOver = true;
-        yield return new WaitForSeconds(delay);  // Wait for 1 second
+        Time.timeScale = 0;  // Stop the game (pause time)
+
+        yield return new WaitForSecondsRealtime(delay);  // Wait for 1 second in real-time
+
+        Time.timeScale = 1;  // Resume the time scale
         RestartGame();
     }
 
     void RestartGame()
     {
-        Time.timeScale = 1;  // Resume the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);  // Restart the current scene
     }
 }
