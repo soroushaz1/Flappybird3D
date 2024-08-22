@@ -10,13 +10,7 @@ public class PipeMovement : MonoBehaviour
 
         if (transform.position.x < -10f)
         {
-            RespawnPipe();
+            Destroy(gameObject); // Destroy the pipe once it moves off-screen
         }
-    }
-
-    void RespawnPipe()
-    {
-        float randomY = Random.Range(-1f, 1f);
-        transform.position = new Vector3(10f, randomY, transform.position.z);
     }
 }

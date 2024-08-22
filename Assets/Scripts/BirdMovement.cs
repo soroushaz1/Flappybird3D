@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BirdMovement : MonoBehaviour
 {
     public float flapForce = 5f;  // The upward force applied when flapping
     public float gravityScale = 10f;  // Adjusts the strength of gravity on the bird
     private Rigidbody rb;
+    private bool isGameOver = false;
 
     void Start()
     {
@@ -14,6 +16,15 @@ public class BirdMovement : MonoBehaviour
 
     void Update()
     {
+        if (isGameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RestartGame();
+            }
+            return;
+        }
+
         // Apply gravity manually
         rb.velocity += Vector3.down * gravityScale * Time.deltaTime;
 
@@ -30,13 +41,27 @@ public class BirdMovement : MonoBehaviour
         rb.velocity = Vector3.up * flapForce;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Pipe" || collision.gameObject.tag == "Ground")
+        Debug.Log("Triggered by: " + other.gameObject.name);  // Log the collision
+        if (other.gameObject.tag == "Pipe" || other.gameObject.tag == "Ground")
         {
-            // Game Over logic
-            Debug.Log("Game Over");
-            Time.timeScale = 0;  // Stop the game
+            GameOver();
         }
+    }
+
+
+
+    void GameOver()
+    {
+        Debug.Log("Game Over");
+        isGameOver = true;
+        Time.timeScale = 0;  // Stop the game
+    }
+
+    void RestartGame()
+    {
+        Time.timeScale = 1;  // Resume the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);  // Restart the current scene
     }
 }
