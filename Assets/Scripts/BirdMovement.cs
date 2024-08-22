@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,17 +47,16 @@ public class BirdMovement : MonoBehaviour
         Debug.Log("Triggered by: " + other.gameObject.name);  // Log the collision
         if (other.gameObject.tag == "Pipe" || other.gameObject.tag == "Ground")
         {
-            GameOver();
+            StartCoroutine(RestartGameAfterDelay(1f));  // Restart after 1 second delay
         }
     }
 
-
-
-    void GameOver()
+    IEnumerator RestartGameAfterDelay(float delay)
     {
         Debug.Log("Game Over");
         isGameOver = true;
-        Time.timeScale = 0;  // Stop the game
+        yield return new WaitForSeconds(delay);  // Wait for 1 second
+        RestartGame();
     }
 
     void RestartGame()
