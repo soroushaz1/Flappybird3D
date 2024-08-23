@@ -3,7 +3,7 @@ using UnityEngine;
 public class PipeSpawner : MonoBehaviour
 {
     public GameObject pipePrefab; // Reference to the pipe prefab
-    public float spawnRate = 2f; // Time between spawns
+    public float spawnRate = 2.5f; // Time between spawns
     public float gapHeight = 13f; // The gap between the top and bottom pipes
     public Transform bird; // Reference to the bird
 
